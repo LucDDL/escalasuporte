@@ -119,8 +119,44 @@
                     <p><strong>Colaborador:</strong> <span id="eventModalColaborador"></span></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary edit-event-btn">Editar</button>
+                    <button type="button" class="btn btn-primary edit-event-btn" data-toggle="collapse" data-target="#editEventCollapse" aria-expanded="false" aria-controls="editEventCollapse">Editar</button>
                     <button type="button" class="btn btn-danger delete-event-btn">Excluir</button>
+                </div>
+                <div class="collapse" id="editEventCollapse">
+                    <div class="card card-body">
+                        <form id="editEventForm">
+                            <div class="form-group">
+                                <label for="editTurno">Turno:</label>
+                                <select class="form-control" id="editTurno">
+                                    <option value="t1">T1</option>
+                                    <option value="t2">T2</option>
+                                    <option value="t3">T3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editHorario">Horário:</label>
+                                <select class="form-control" id="editHorario">
+                                    <option>10:00 às 15:20</option>
+                                    <option>15:00 às 20:20</option>
+                                    <option>20:00 às 01:20</option>
+                                    <option>02:00 às 09:20</option>
+                                    <option>10:00 às 18:20</option>
+                                    <option>18:00 às 02:20</option>
+                                    <option>15:00 às 20:20</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="editColaborador">Colaborador:</label>
+                                <select class="form-control" id="editColaborador">
+                                    <option>Lucas</option>
+                                    <option>Kaique</option>
+                                    <option>Luis</option>
+                                    <option>Ramon</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -142,6 +178,10 @@
             var eventModalTurno = document.getElementById('eventModalTurno');
             var eventModalHorario = document.getElementById('eventModalHorario');
             var eventModalColaborador = document.getElementById('eventModalColaborador');
+            var editEventForm = document.getElementById('editEventForm');
+            var editTurno = document.getElementById('editTurno');
+            var editHorario = document.getElementById('editHorario');
+            var editColaborador = document.getElementById('editColaborador');
             var editEventBtn = document.querySelector('.edit-event-btn');
             var deleteEventBtn = document.querySelector('.delete-event-btn');
 
@@ -210,13 +250,15 @@
                 deleteEventBtn.dataset.eventId = '';
             });
 
-            editEventBtn.addEventListener('click', function() {
-                var eventId = this.dataset.eventId;
+            editEventForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                var eventId = editEventBtn.dataset.eventId;
                 var event = calendar.getEventById(eventId);
 
-                var newTurno = prompt('Digite o novo turno:', event.extendedProps.turno);
-                var newHorario = prompt('Digite o novo horário:', event.extendedProps.horario);
-                var newColaborador = prompt('Digite o novo colaborador:', event.extendedProps.colaborador);
+                var newTurno = editTurno.value;
+                var newHorario = editHorario.value;
+                var newColaborador = editColaborador.value;
 
                 event.setExtendedProp('turno', newTurno);
                 event.setExtendedProp('horario', newHorario);
